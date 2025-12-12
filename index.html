@@ -23,33 +23,47 @@
         }
       }
     </style>
-
+    <!-- Hero Slider (index.html only) -->
     <style>
-      .hero.hero-slider {
+      .hero.hero--slider {
         padding: 0;
         background: transparent;
       }
 
-      .hero-slider__viewport {
+      .hero-slider {
         position: relative;
         width: 100%;
-        height: clamp(320px, 52vh, 520px);
-        max-height: 520px;
+        height: clamp(520px, 70vh, 820px);
         overflow: hidden;
-        border-radius: 20px;
+        border-radius: 0;
+        outline: none;
+      }
+
+      @media (max-width: 1024px) {
+        .hero-slider {
+          height: clamp(480px, 62vh, 740px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-slider {
+          height: clamp(560px, 100svh, 820px);
+        }
       }
 
       .hero-slider__slides {
         position: relative;
         width: 100%;
         height: 100%;
+        margin: 0;
+        padding: 0;
       }
 
       .hero-slider__slide {
         position: absolute;
         inset: 0;
         opacity: 0;
-        transition: opacity 450ms ease;
+        transition: opacity 600ms ease;
         pointer-events: none;
       }
 
@@ -58,45 +72,106 @@
         pointer-events: auto;
       }
 
-      .hero-slider__slide picture {
-        position: absolute;
-        inset: 0;
+      .hero-slider picture,
+      .hero-slider img {
         display: block;
-      }
-
-      .hero-slider__slide img {
         width: 100%;
         height: 100%;
+      }
+
+      .hero-slider img {
         object-fit: cover;
+        object-position: center;
       }
 
       .hero-slider__overlay {
         position: absolute;
         inset: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 28px 28px 64px;
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0.0) 40%, rgba(0, 0, 0, 0.65) 100%);
+        display: grid;
+        grid-template-rows: auto 1fr;
+        padding: clamp(18px, 3.2vw, 44px);
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.55) 0%,
+          rgba(0, 0, 0, 0.35) 45%,
+          rgba(0, 0, 0, 0.05) 100%
+        );
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        .hero-slider__overlay {
+          background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.35) 45%,
+            rgba(0, 0, 0, 0.10) 100%
+          );
+        }
       }
 
       .hero-slider__title {
-        color: #ffffff;
-        font-size: clamp(1.6rem, 3vw, 2.4rem);
-        letter-spacing: -0.02em;
-        margin: 0 0 8px 0;
+        justify-self: start;
+        align-self: start;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 12px;
+        backdrop-filter: blur(6px);
       }
 
-      .hero-slider__subtitle {
-        color: rgba(255, 255, 255, 0.92);
-        font-size: 1.05rem;
-        font-weight: 500;
-        margin: 0 0 18px 0;
-        max-width: 640px;
+      .hero-slider__content {
+        align-self: center;
+        max-width: 860px;
       }
 
-      .hero-slider__cta {
+      .hero-slider__headline {
+        margin: 0;
+        font-weight: 800;
+        line-height: 1.15;
+        font-size: clamp(1.6rem, 3.2vw, 3rem);
+        text-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+      }
+
+      .hero-slider__subheadline {
+        margin: 14px 0 0;
+        font-weight: 600;
+        line-height: 1.4;
+        font-size: clamp(1rem, 1.6vw, 1.35rem);
+        opacity: 0.95;
+        text-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+      }
+
+      .hero-slider__text {
+        margin: 14px 0 0;
+        line-height: 1.6;
+        font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+        opacity: 0.9;
+        max-width: 720px;
+        text-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+      }
+
+      @media (max-width: 768px) {
+        .hero-slider__text {
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
+
+      .hero-slider__actions {
+        margin-top: 20px;
         display: flex;
+        justify-content: center;
+      }
+
+      .hero-slider__actions .hero__actions {
+        display: flex;
+        justify-content: center;
         gap: 12px;
         flex-wrap: wrap;
       }
@@ -105,21 +180,24 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.35);
         background: rgba(0, 0, 0, 0.35);
-        color: #ffffff;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        color: #fff;
+        display: grid;
+        place-items: center;
         cursor: pointer;
+        z-index: 5;
+        transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
       }
 
       .hero-slider__nav:hover,
       .hero-slider__nav:focus-visible {
         background: rgba(0, 0, 0, 0.55);
+        border-color: rgba(255, 255, 255, 0.55);
+        outline: none;
       }
 
       .hero-slider__nav--prev {
@@ -130,70 +208,10 @@
         right: 16px;
       }
 
-      .hero-slider__nav span {
-        font-size: 26px;
-        line-height: 1;
-      }
-
-      .hero-slider__dots {
-        position: absolute;
-        left: 50%;
-        bottom: 18px;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .hero-slider__dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.75);
-        background: rgba(255, 255, 255, 0.25);
-        cursor: pointer;
-      }
-
-      .hero-slider__dot:hover,
-      .hero-slider__dot:focus-visible {
-        background: rgba(255, 255, 255, 0.55);
-      }
-
-      .hero-slider__dot.is-active {
-        background: rgba(255, 255, 255, 0.95);
-      }
-
-      @media (max-width: 1024px) {
-        .hero-slider__viewport {
-          height: clamp(300px, 46vh, 460px);
-          max-height: 460px;
-          border-radius: 18px;
-        }
-
-        .hero-slider__overlay {
-          padding: 24px 20px 60px;
-        }
-
-        .hero-slider__subtitle {
-          font-size: 1rem;
-        }
-      }
-
       @media (max-width: 768px) {
-        .hero-slider__viewport {
-          height: clamp(360px, 62vh, 560px);
-          max-height: 560px;
-          border-radius: 16px;
-        }
-
-        .hero-slider__overlay {
-          padding: 20px 16px 60px;
-        }
-
         .hero-slider__nav {
-          width: 40px;
-          height: 40px;
+          width: 42px;
+          height: 42px;
         }
 
         .hero-slider__nav--prev {
@@ -204,6 +222,47 @@
           right: 10px;
         }
       }
+
+      .hero-slider__nav span {
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .hero-slider__dots {
+        position: absolute;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+      }
+
+      .hero-slider__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.25);
+        cursor: pointer;
+        padding: 0;
+        transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+      }
+
+      .hero-slider__dot:hover,
+      .hero-slider__dot:focus-visible {
+        transform: scale(1.15);
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.45);
+      }
+
+      .hero-slider__dot.is-active {
+        background: rgba(255, 255, 255, 0.95);
+        border-color: rgba(255, 255, 255, 0.95);
+      }
     </style>
 
 
@@ -212,123 +271,153 @@
     <div id="header-placeholder"></div>
 
     <main class="main-content">
-            <section class="hero hero-slider" aria-label="Hero slider">
-        <div class="hero-slider__viewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Hero carousel">
-          <div class="hero-slider__slides" role="list">
-            <div class="hero-slider__slide is-active" role="group" aria-roledescription="slide" aria-label="1 / 3">
-              <picture class="lang-ko">
-                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide1_mobile_kr.webp" />
-                <source media="(max-width: 1024px)" srcset="assets/img/slide1_tablet_kr.webp" />
-                <source srcset="assets/img/slide1_web_kr.webp" />
-                <img src="assets/img/slide1_web_kr.webp" alt="스마트 시티 교통 관제 AI 솔루션 Hero 이미지" loading="eager" decoding="async" />
-              </picture>
-
-              <picture class="lang-en">
-                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide1_mobile_en.webp" />
-                <source media="(max-width: 1024px)" srcset="assets/img/slide1_tablet_en.webp" />
-                <source srcset="assets/img/slide1_web_en.webp" />
-                <img src="assets/img/slide1_web_en.webp" alt="Smart City AI Solution Hero Image" loading="eager" decoding="async" />
+      <section class="hero hero--slider">
+        <div
+          class="hero-slider"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Hero slider"
+          tabindex="0"
+        >
+          <ul class="hero-slider__slides" role="list">
+            <li class="hero-slider__slide is-active" data-index="0" aria-hidden="false">
+              <picture>
+                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide1_mobile.webp" />
+                <source media="(max-width: 1024px)" srcset="assets/img/slide1_tablet.webp" />
+                <img
+                  src="assets/img/slide1_web.webp"
+                  alt="스마트 시티 교통 관제 AI 솔루션 Hero 이미지 / Smart City AI Solution Hero Image"
+                  loading="eager"
+                  decoding="async"
+                />
               </picture>
 
               <div class="hero-slider__overlay">
-                <h1 class="hero-slider__title">
+                <div class="hero-slider__title">
                   <span class="lang-ko">스마트 시티</span>
-                  <span class="lang-en">Smart City</span>
-                </h1>
-                <p class="hero-slider__subtitle">
-                  <span class="lang-ko">교통·도시 인프라를 위한 AI 기반 영상분석</span>
-                  <span class="lang-en">AI-powered video analytics for traffic and city infrastructure</span>
-                </p>
+                  <span class="lang-en">Smart Cities</span>
+                </div>
 
-                <div class="hero-slider__cta">
-                  <a href="products.html" class="btn-primary">
-                    <span class="lang-ko">제품 개요 보기</span>
-                    <span class="lang-en">View Product Overview</span>
-                  </a>
-                  <a href="partners.html" class="btn-secondary">
-                    <span class="lang-ko">파트너 프로그램 준비 현황</span>
-                    <span class="lang-en">Partner Program Status</span>
-                  </a>
+                <div class="hero-slider__content">
+                  <h1 class="hero-slider__headline">
+                    <span class="lang-ko">차원이 다른 정확도, 도시의 안전을 완성하다</span>
+                    <span class="lang-en">Unparalleled Accuracy: Perfecting Urban Safety.</span>
+                  </h1>
+                  <p class="hero-slider__subheadline">
+                    <span class="lang-ko">글로벌 VMS 연동, 오탐/미탐 제로에 도전하는 최첨단 Vision AI 솔루션</span>
+                    <span class="lang-en">Seamless Global VMS Integration. A state-of-the-art Vision AI solution striving for zero false detections.</span>
+                  </p>
+                  <p class="hero-slider__text">
+                    <span class="lang-ko">세계적 수준의 AI 영상분석 기술이 도시 관제 환경에 최적화되었습니다. 객체 분류, 식별, 추적, 그리고 다양한 실시간 행동 인식을 통해 미탐과 오탐을 최소화하여 압도적인 정확도를 자랑합니다. 높은 안전성과 효율적인 스마트 시티 운영 인텔리전스를 실현할 이 솔루션을 조만간 런칭합니다.</span>
+                    <span class="lang-en">We have tailored our state-of-the-art AI video analytics to meet the demands of urban surveillance. This solution boasts overwhelmingly high accuracy, minimizing missed detections and false alarms through advanced object classification, identification, tracking, and real-time behavior recognition. Prepare for the upcoming launch of a solution designed to realize safer cities and smarter operational intelligence.</span>
+                  </p>
+
+                  <div class="hero-slider__actions">            <div class="hero__actions">
+              <a href="products.html" class="btn-primary">
+                <span class="lang-ko">제품 개요 보기</span>
+                <span class="lang-en">View Product Overview</span>
+              </a>
+              <a href="partners.html" class="btn-secondary">
+                <span class="lang-ko">파트너 프로그램 준비 현황</span>
+                <span class="lang-en">Partner Program Status</span>
+              </a>
+            </div></div>
                 </div>
               </div>
-            </div>
+            </li>
 
-            <div class="hero-slider__slide" role="group" aria-roledescription="slide" aria-label="2 / 3">
-              <picture class="lang-ko">
-                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide2_mobile_kr.webp" />
-                <source media="(max-width: 1024px)" srcset="assets/img/slide2_tablet_kr.webp" />
-                <source srcset="assets/img/slide2_web_kr.webp" />
-                <img src="assets/img/slide2_web_kr.webp" alt="스마트 팩토리 안전 관리 AI 솔루션 Hero 이미지" loading="lazy" decoding="async" />
-              </picture>
-
-              <picture class="lang-en">
-                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide2_mobile_en.webp" />
-                <source media="(max-width: 1024px)" srcset="assets/img/slide2_tablet_en.webp" />
-                <source srcset="assets/img/slide2_web_en.webp" />
-                <img src="assets/img/slide2_web_en.webp" alt="Smart Factory Safety Management Hero Image" loading="lazy" decoding="async" />
+            <li class="hero-slider__slide" data-index="1" aria-hidden="true">
+              <picture>
+                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide2_mobile.webp" />
+                <source media="(max-width: 1024px)" srcset="assets/img/slide2_tablet.webp" />
+                <img
+                  src="assets/img/slide2_web.webp"
+                  alt="스마트 팩토리 안전 관리 AI 솔루션 Hero 이미지 / Smart Factory Safety Management Hero Image"
+                  loading="lazy"
+                  decoding="async"
+                />
               </picture>
 
               <div class="hero-slider__overlay">
-                <h1 class="hero-slider__title">
-                  <span class="lang-ko">제조 공장</span>
-                  <span class="lang-en">Manufacturing</span>
-                </h1>
-                <p class="hero-slider__subtitle">
-                  <span class="lang-ko">작업자 안전·현장 효율을 위한 스마트 팩토리 분석</span>
-                  <span class="lang-en">Smart factory analytics for worker safety and operational efficiency</span>
-                </p>
+                <div class="hero-slider__title">
+                  <span class="lang-ko">제조/산업 안전</span>
+                  <span class="lang-en">Manufacturing/Industry Safety</span>
+                </div>
 
-                <div class="hero-slider__cta">
-                  <a href="products.html" class="btn-primary">
-                    <span class="lang-ko">제품 개요 보기</span>
-                    <span class="lang-en">View Product Overview</span>
-                  </a>
-                  <a href="partners.html" class="btn-secondary">
-                    <span class="lang-ko">파트너 프로그램 준비 현황</span>
-                    <span class="lang-en">Partner Program Status</span>
-                  </a>
+                <div class="hero-slider__content">
+                  <h2 class="hero-slider__headline">
+                    <span class="lang-ko">데이터로 증명하는 안전, 운영 인텔리전스를 극대화하다</span>
+                    <span class="lang-en">Data-Proven Safety. Maximized Operational Intelligence.</span>
+                  </h2>
+                  <p class="hero-slider__subheadline">
+                    <span class="lang-ko">강력한 메타데이터 관리와 포렌식 검색, 모든 상황을 기록하고 분석</span>
+                    <span class="lang-en">Record and analyze every scenario with robust metadata management and powerful forensic search.</span>
+                  </p>
+                  <p class="hero-slider__text">
+                    <span class="lang-ko">최첨단 비전 AI 기술은 건설과 생산 현장의 보안과 안전, 운영 효율을 동시에 높입니다. 객체 식별 및 추적 기반의 데이터 집계와 통계를 통해 효율적인 운영 방안을 제시하며, 강력한 메타데이터 관리를 통한 포렌식 검색 기능을 제공합니다. 다양한 글로벌 VMS와 연동되는 이 혁신적인 솔루션의 출시를 기다려 주십시오.</span>
+                    <span class="lang-en">Our cutting-edge Vision AI technology simultaneously elevates security, safety, and operational efficiency across construction and manufacturing sites. By leveraging object identification and tracking for automated data aggregation and statistics, we provide actionable operational insights. Furthermore, the solution offers advanced forensic search capabilities through powerful metadata management. Get ready for the launch of this innovative solution, designed to integrate seamlessly with diverse global VMS platforms.</span>
+                  </p>
+
+                  <div class="hero-slider__actions">            <div class="hero__actions">
+              <a href="products.html" class="btn-primary">
+                <span class="lang-ko">제품 개요 보기</span>
+                <span class="lang-en">View Product Overview</span>
+              </a>
+              <a href="partners.html" class="btn-secondary">
+                <span class="lang-ko">파트너 프로그램 준비 현황</span>
+                <span class="lang-en">Partner Program Status</span>
+              </a>
+            </div></div>
                 </div>
               </div>
-            </div>
+            </li>
 
-            <div class="hero-slider__slide" role="group" aria-roledescription="slide" aria-label="3 / 3">
-              <picture class="lang-ko">
-                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide3_mobile_kr.webp" />
-                <source media="(max-width: 1024px)" srcset="assets/img/slide3_tablet_kr.webp" />
-                <source srcset="assets/img/slide3_web_kr.webp" />
-                <img src="assets/img/slide3_web_kr.webp" alt="리테일 매장 고객 분석 AI 솔루션 Hero 이미지" loading="lazy" decoding="async" />
-              </picture>
-
-              <picture class="lang-en">
-                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide3_mobile_en.webp" />
-                <source media="(max-width: 1024px)" srcset="assets/img/slide3_tablet_en.webp" />
-                <source srcset="assets/img/slide3_web_en.webp" />
-                <img src="assets/img/slide3_web_en.webp" alt="Retail Store Customer Analytics AI Solution Hero Image" loading="lazy" decoding="async" />
+            <li class="hero-slider__slide" data-index="2" aria-hidden="true">
+              <picture>
+                <source media="(max-width: 768px) and (orientation: portrait)" srcset="assets/img/slide3_mobile.webp" />
+                <source media="(max-width: 1024px)" srcset="assets/img/slide3_tablet.webp" />
+                <img
+                  src="assets/img/slide3_web.webp"
+                  alt="리테일 매장 고객 분석 AI 솔루션 Hero 이미지 / Retail Store Customer Analytics AI Solution Hero Image"
+                  loading="lazy"
+                  decoding="async"
+                />
               </picture>
 
               <div class="hero-slider__overlay">
-                <h1 class="hero-slider__title">
+                <div class="hero-slider__title">
                   <span class="lang-ko">리테일 매장</span>
-                  <span class="lang-en">Retail</span>
-                </h1>
-                <p class="hero-slider__subtitle">
-                  <span class="lang-ko">고객 흐름·운영을 데이터로 연결하는 매장 분석</span>
-                  <span class="lang-en">Store analytics connecting customer flow and operations to data</span>
-                </p>
+                  <span class="lang-en">Retail Store</span>
+                </div>
 
-                <div class="hero-slider__cta">
-                  <a href="products.html" class="btn-primary">
-                    <span class="lang-ko">제품 개요 보기</span>
-                    <span class="lang-en">View Product Overview</span>
-                  </a>
-                  <a href="partners.html" class="btn-secondary">
-                    <span class="lang-ko">파트너 프로그램 준비 현황</span>
-                    <span class="lang-en">Partner Program Status</span>
-                  </a>
+                <div class="hero-slider__content">
+                  <h2 class="hero-slider__headline">
+                    <span class="lang-ko">누구든 쉽게, 안정적으로 경험하는 AI 영상분석의 미래</span>
+                    <span class="lang-en">The Future of AI Video Analytics: Accessible, Reliable, and Easy for Everyone.</span>
+                  </h2>
+                  <p class="hero-slider__subheadline">
+                    <span class="lang-ko">높은 안정성, 손쉬운 구성, 편리한 운영을 위한 완벽한 매뉴얼 지원</span>
+                    <span class="lang-en">High reliability, effortless configuration, and convenient operation backed by comprehensive documentation.</span>
+                  </p>
+                  <p class="hero-slider__text">
+                    <span class="lang-ko">복잡한 설정과 불안정성으로 AI 도입을 망설일 필요가 없습니다. 높은 안정성, 손쉬운 구성 및 설정, 편리한 운영 환경을 제공하며, 풍부한 매뉴얼과 프레젠테이션으로 진입 장벽을 낮춥니다. 보안, 안전, 운영 효율을 혁신할 세계적 수준의 솔루션을 곧 경험하실 수 있습니다.</span>
+                    <span class="lang-en">Stop hesitating to adopt AI due to concerns about complexity or instability. We provide a highly stable environment with effortless configuration, simple setup, and convenient operation. Our extensive manuals and presentations significantly lower the barrier to entry for any user. Prepare to experience a world-class solution that will revolutionize security, safety, and operational efficiency—coming soon.</span>
+                  </p>
+
+                  <div class="hero-slider__actions">            <div class="hero__actions">
+              <a href="products.html" class="btn-primary">
+                <span class="lang-ko">제품 개요 보기</span>
+                <span class="lang-en">View Product Overview</span>
+              </a>
+              <a href="partners.html" class="btn-secondary">
+                <span class="lang-ko">파트너 프로그램 준비 현황</span>
+                <span class="lang-en">Partner Program Status</span>
+              </a>
+            </div></div>
                 </div>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
 
           <button class="hero-slider__nav hero-slider__nav--prev" type="button" aria-label="Previous slide">
             <span aria-hidden="true">‹</span>
@@ -338,9 +427,9 @@
           </button>
 
           <div class="hero-slider__dots" role="tablist" aria-label="Slide navigation">
-            <button class="hero-slider__dot is-active" type="button" role="tab" aria-label="Go to slide 1" aria-selected="true"></button>
-            <button class="hero-slider__dot" type="button" role="tab" aria-label="Go to slide 2" aria-selected="false"></button>
-            <button class="hero-slider__dot" type="button" role="tab" aria-label="Go to slide 3" aria-selected="false"></button>
+            <button class="hero-slider__dot is-active" type="button" role="tab" aria-label="Slide 1" aria-selected="true" tabindex="0" data-index="0"></button>
+            <button class="hero-slider__dot" type="button" role="tab" aria-label="Slide 2" aria-selected="false" tabindex="-1" data-index="1"></button>
+            <button class="hero-slider__dot" type="button" role="tab" aria-label="Slide 3" aria-selected="false" tabindex="-1" data-index="2"></button>
           </div>
         </div>
       </section>
@@ -635,111 +724,139 @@
 
     <div id="footer-placeholder"></div>
     <script src="assets/js/main.js"></script>
+
     <script>
       (function () {
-        const viewport = document.querySelector(".hero-slider__viewport");
-        if (!viewport) return;
+        var slider = document.querySelector(".hero-slider");
+        if (!slider) return;
 
-        const slides = Array.from(document.querySelectorAll(".hero-slider__slide"));
-        const dots = Array.from(document.querySelectorAll(".hero-slider__dot"));
-        const prevBtn = document.querySelector(".hero-slider__nav--prev");
-        const nextBtn = document.querySelector(".hero-slider__nav--next");
+        var slides = Array.prototype.slice.call(slider.querySelectorAll(".hero-slider__slide"));
+        var dots = Array.prototype.slice.call(slider.querySelectorAll(".hero-slider__dot"));
+        var prevBtn = slider.querySelector(".hero-slider__nav--prev");
+        var nextBtn = slider.querySelector(".hero-slider__nav--next");
 
-        let currentIndex = 0;
-        let timerId = null;
-        const intervalMs = 5000;
+        var current = 0;
+        var intervalMs = 5000;
+        var timer = null;
 
-        function setActive(index, options = {}) {
-          const { userInitiated = false } = options;
-          const nextIndex = (index + slides.length) % slides.length;
+        function setActive(index, fromUser) {
+          if (index < 0) index = slides.length - 1;
+          if (index >= slides.length) index = 0;
 
-          slides.forEach((slide, i) => {
-            const isActive = i === nextIndex;
+          slides.forEach(function (slide, i) {
+            var isActive = i === index;
             slide.classList.toggle("is-active", isActive);
             slide.setAttribute("aria-hidden", isActive ? "false" : "true");
           });
 
-          dots.forEach((dot, i) => {
-            const isActive = i === nextIndex;
+          dots.forEach(function (dot, i) {
+            var isActive = i === index;
             dot.classList.toggle("is-active", isActive);
             dot.setAttribute("aria-selected", isActive ? "true" : "false");
-            dot.tabIndex = isActive ? 0 : -1;
+            dot.setAttribute("tabindex", isActive ? "0" : "-1");
           });
 
-          currentIndex = nextIndex;
+          if (fromUser) {
+            dots[index].focus({ preventScroll: true });
+          }
 
-          if (userInitiated) restartAutoplay();
+          current = index;
         }
 
-        function next() {
-          setActive(currentIndex + 1);
+        function next(fromUser) {
+          setActive(current + 1, !!fromUser);
         }
 
-        function prev() {
-          setActive(currentIndex - 1);
+        function prev(fromUser) {
+          setActive(current - 1, !!fromUser);
         }
 
-        function startAutoplay() {
-          if (timerId) return;
-          timerId = window.setInterval(next, intervalMs);
+        function start() {
+          stop();
+          timer = window.setInterval(function () {
+            next(false);
+          }, intervalMs);
         }
 
-        function stopAutoplay() {
-          if (!timerId) return;
-          window.clearInterval(timerId);
-          timerId = null;
+        function stop() {
+          if (timer) {
+            window.clearInterval(timer);
+            timer = null;
+          }
         }
 
-        function restartAutoplay() {
-          stopAutoplay();
-          startAutoplay();
+        function onKeydown(e) {
+          var key = e.key || e.keyCode;
+          if (key === "ArrowLeft" || key === 37) {
+            e.preventDefault();
+            prev(true);
+            start();
+          } else if (key === "ArrowRight" || key === 39) {
+            e.preventDefault();
+            next(true);
+            start();
+          } else if (key === "Home") {
+            e.preventDefault();
+            setActive(0, true);
+            start();
+          } else if (key === "End") {
+            e.preventDefault();
+            setActive(slides.length - 1, true);
+            start();
+          }
         }
 
         prevBtn.addEventListener("click", function () {
-          prev();
-          restartAutoplay();
+          prev(true);
+          start();
         });
 
         nextBtn.addEventListener("click", function () {
-          next();
-          restartAutoplay();
+          next(true);
+          start();
         });
 
-        dots.forEach((dot, i) => {
+        dots.forEach(function (dot) {
           dot.addEventListener("click", function () {
-            setActive(i, { userInitiated: true });
+            var idx = parseInt(dot.getAttribute("data-index"), 10);
+            if (!isNaN(idx)) {
+              setActive(idx, true);
+              start();
+            }
+          });
+
+          dot.addEventListener("keydown", function (e) {
+            var key = e.key || e.keyCode;
+            var idx = parseInt(dot.getAttribute("data-index"), 10);
+
+            if (key === "ArrowLeft" || key === 37) {
+              e.preventDefault();
+              setActive(idx - 1, true);
+              start();
+            } else if (key === "ArrowRight" || key === 39) {
+              e.preventDefault();
+              setActive(idx + 1, true);
+              start();
+            } else if (key === "Enter" || key === " " || key === 13 || key === 32) {
+              e.preventDefault();
+              setActive(idx, true);
+              start();
+            }
           });
         });
 
-        viewport.addEventListener("mouseenter", stopAutoplay);
-        viewport.addEventListener("mouseleave", startAutoplay);
-        viewport.addEventListener("focusin", stopAutoplay);
-        viewport.addEventListener("focusout", startAutoplay);
+        slider.addEventListener("mouseenter", stop);
+        slider.addEventListener("mouseleave", start);
 
-        viewport.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            prev();
-            restartAutoplay();
-          }
-
-          if (e.key === "ArrowRight") {
-            e.preventDefault();
-            next();
-            restartAutoplay();
-          }
+        slider.addEventListener("focusin", stop);
+        slider.addEventListener("focusout", function (e) {
+          if (!slider.contains(e.relatedTarget)) start();
         });
 
-        // Initial a11y state
-        slides.forEach((slide, i) => {
-          slide.setAttribute("aria-hidden", i === 0 ? "false" : "true");
-        });
+        slider.addEventListener("keydown", onKeydown);
 
-        dots.forEach((dot, i) => {
-          dot.tabIndex = i === 0 ? 0 : -1;
-        });
-
-        startAutoplay();
+        setActive(0, false);
+        start();
       })();
     </script>
   </body>
